@@ -4,3 +4,12 @@ venv/
 .env
 .vscode/
 *.db
+.DS_Store
+Thumbs.db
+.ipynb_checkpoints
+mysql_data/
+data/
+*.log
+dist/
+build/
+*.egg-info/
