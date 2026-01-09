@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS inventory_movements(
     product_id INT NOT NULL,
 	CONSTRAINT fk_pro_inv
 		FOREIGN KEY (product_id)
-			REFERENCES product (product_id)
+			REFERENCES products (product_id)
             ON UPDATE CASCADE
 			ON DELETE RESTRICT  
 );

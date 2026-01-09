@@ -15,3 +15,6 @@ def test_connection():
 
 if __name__ == "__main__":
     test_connection()
+
+# $ docker-compose up -d
+# $ source venv/Scripts/activate
