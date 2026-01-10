@@ -13,9 +13,8 @@ def create_tables():
 
     connection = None
     try:
-        # With **config we convert the dictionary with the data from db_config
-        # and we pass it as a tuple with separate arguments to connect to 
-        # the db
+        # With **config we are unpacking the config dictionary from db_config
+        # into keywords arguments
         connection = mysql.connector.connect(**config)
 
         # with cursor we point to each command to execute
@@ -34,6 +33,7 @@ def create_tables():
             print("Database created !")
     except mysql.connector.Error as err:
         print(f'Error:{err}')
+    # This executes always to close the connection even if it raises an Error
     finally:
         if connection and connection.is_connected():
             connection.close()
