@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS products(
 	sell_price DECIMAL(8, 2) NOT NULL COMMENT 'En cuanto se va a vender (MXN)'
 		CONSTRAINT chk_sell_price CHECK (sell_price > 0.00),
 	currently_stock INT DEFAULT 0 COMMENT 'Inventario actual',
+	is_active TINYINT(1) DEFAULT 1,
 	PRIMARY KEY(product_id),
     UNIQUE KEY uk_color_talla (color, size)
 );

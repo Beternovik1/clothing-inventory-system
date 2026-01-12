@@ -1,4 +1,5 @@
 import os
+import mysql.connector
 from dotenv import load_dotenv
 
 # Loading variables from .env file
@@ -12,6 +13,10 @@ def get_db_config():
         'password': os.getenv('MYSQL_USER_PASS'),
         'database': os.getenv('DB_DATABASE')
     }
+
+def get_connection():
+    config = get_db_config()
+    return mysql.connector.connect(**config)
 
 def get_sqlalchemy_url():
     user = os.getenv('DB_USER')

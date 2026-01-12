@@ -6,17 +6,19 @@ import mysql.connector
 from db_config import get_db_config
 
 def create_tables():
-    config = get_db_config()
-    
     with open('pants_db.sql', 'r') as file:
         sql_script = file.read()
+
+    config = get_db_config()
+    if 'database' in config:
+        del config['database']
 
     connection = None
     try:
         # With **config we are unpacking the config dictionary from db_config
         # into keywords arguments
-        connection = mysql.connector.connect(**config)
-
+        connection =mysql.connector.connect(**config, use_pure=True)
+        
         # with cursor we point to each command to execute
         with connection.cursor() as cursor:
             # using split(';') to split the text at every ';' and create a 
@@ -30,7 +32,7 @@ def create_tables():
                     cursor.execute(command)
             # saving changes
             connection.commit()
-            print("Database created !")
+            print("Database and Tables created !")
     except mysql.connector.Error as err:
         print(f'Error:{err}')
     # This executes always to close the connection even if it raises an Error
