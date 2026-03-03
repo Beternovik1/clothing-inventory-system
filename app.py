@@ -24,7 +24,7 @@ if choice == "Dashboard":
         col1, col2, col3 = st.columns(3)
         col1.metric("Total Items", total_stock)
         col2.metric("Total inventory value", f'${total_value}')
-        st.dataframe(df, use_container_width=True)
+        st.dataframe(df, width='stretch')
         st.bar_chart(df.set_index('Color')['Stock'])
     else:
         st.info("No products found in the database.")
@@ -37,7 +37,7 @@ elif choice == "Add Product":
         col1, col2, col3 = st.columns(3)
         cat = col1.selectbox("Category", ["Pantalon", "Empaquetado"])
         color = col2.selectbox("Color", ["Negro", "Gris", "Caqui", "Verde", "Azul", "Hueso", "Dorado", "Transparente"])
-        size = col3.selectbox("Size", ["CH", "M", "G", "XL"])
+        size = col3.selectbox("Size", ["CH", "M", "G", "XG"])
 
         col4, col5 = st.columns(2)
         cost = col4.number_input("Cost price", min_value=0.0, value=200.0, step=10.0)
@@ -47,8 +47,10 @@ elif choice == "Add Product":
         submitted = st.form_submit_button("Add to Database")
 
         if submitted:
-            add_product(cat, color, size, cost, sell, stock)
-            st.success(f'Added {cat} ({color}, {size}) ot inventory!')
+            if add_product(cat, color, size, cost, sell, stock):
+                st.success(f'¡Pantalón {color} {size} agregado a UrbanWear!')
+            else:
+                st.error("Hubo un error al guardar en la base de datos. Checa la terminal.")
 
 # 3. Update stock (UPDATE)
 elif choice == "Update Stock":
@@ -83,4 +85,14 @@ elif choice == "Delete":
     if st.button("Delete product"):
         confirm_delete(product_id)
 
+# --- Este es para si me voy a comer ----
+# docker compose stop
+
+# Este es por si ya voy a cerrar la lap
+# docker compose stop
+
+# ---- Este es por si quiero empezar a correr en segundo plano el contenedor ----
+# docker compose up -d 
+
+# ---- Correr el streamlit ------
 # $ streamlit run app.py

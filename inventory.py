@@ -13,20 +13,32 @@ def add_product(category, color, size, cost_price, sell_price, currently_stock):
         # SQL query inserting data
         # %s is a place holder that convert the value into the value we inserted it
         sql = """
-            INSERT INTO products (category, color, size, cost_price, sell_price, currently_stock)
-                VALUES (%s, %s, %s, %s, %s, %s)
+            INSERT INTO products (category, color, size, cost_price, sell_price, currently_stock, is_active)
+                        VALUES (%s, %s, %s, %s, %s, %s, 1)
+                        ON DUPLICATE KEY UPDATE 
+                            currently_stock = currently_stock + VALUES(currently_stock),
+                            cost_price = VALUES(cost_price),
+                            sell_price = VALUES(sell_price),
+                            is_active = 1
         """
 
         # data tuple
         values = (category, color, size, cost_price, sell_price, currently_stock)
         cursor.execute(sql, values)
         connection.commit()
+        
+
+        if cursor.rowcount == 1:
+            print(f'Success!, New product created. ID: {cursor.lastrowid}')
+        else:
+            print(f'Success!, New product updated and reactivated.')
 
         # cursor.lastrowid is an id number the db assign to the item i created from the 
         # cursor's memory
-        print(f'Success !, Product added with ID: {cursor.lastrowid}')
+        return True
     except mysql.connector.Error as err:
         print(f'Error: {err}')
+        return False
     finally:
         if cursor:
             cursor.close()

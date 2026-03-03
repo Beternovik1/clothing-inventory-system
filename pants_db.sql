@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS products(
     cost_price DECIMAL(8, 2) NOT NULL COMMENT 'En cuanto se compro (MXN)'
 		CONSTRAINT chk_cost_price CHECK (cost_price > 0.00),    
 	sell_price DECIMAL(8, 2) NOT NULL COMMENT 'En cuanto se va a vender (MXN)'
-		CONSTRAINT chk_sell_price CHECK (sell_price > 0.00),
+		CONSTRAINT chk_sell_price CHECK (sell_price >= 0.00),
 	currently_stock INT DEFAULT 0 COMMENT 'Inventario actual',
 	is_active TINYINT(1) DEFAULT 1,
 	PRIMARY KEY(product_id),
